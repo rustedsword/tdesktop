@@ -1,0 +1,38 @@
+Description: Guard QAccessible::Attribute::Orientation behind Qt 6.11
+ The enumerator was added in Qt 6.11 and Ubuntu 26.04 ships 6.10.2.
+ Upstream already gates other code on QT_VERSION >= 6.11 in
+ cmake/external/qt/CMakeLists.txt but these two sites are unguarded, so the
+ build fails against 6.10. The only effect on 6.10 is that the accessibility
+ orientation hint is not reported.
+Author: Stanislav Aleksandrov <lightofmysoul@gmail.com>
+Forwarded: not-needed (obsolete once Qt 6.11 is the baseline)
+
+diff --git a/ui/accessible/ui_accessible_widget.cpp b/ui/accessible/ui_accessible_widget.cpp
+index aa538f7..816e42c 100644
+--- a/Telegram/lib_ui/ui/accessible/ui_accessible_widget.cpp
++++ b/Telegram/lib_ui/ui/accessible/ui_accessible_widget.cpp
+@@ -360,13 +360,16 @@ bool Widget::clear() {
+ 
+ QList<QAccessible::Attribute> Widget::attributeKeys() const {
+ 	auto result = QList<QAccessible::Attribute>();
++#if QT_VERSION >= QT_VERSION_CHECK(6, 11, 0)
+ 	if (rp()->accessibilityOrientation().has_value()) {
+ 		result.append(QAccessible::Attribute::Orientation);
+ 	}
++#endif // Qt >= 6.11
+ 	return result;
+ }
+ 
+ QVariant Widget::attributeValue(QAccessible::Attribute key) const {
++#if QT_VERSION >= QT_VERSION_CHECK(6, 11, 0)
+ 	if (key == QAccessible::Attribute::Orientation) {
+ 		if (const auto orientation = rp()->accessibilityOrientation()) {
+ 			// Plain int by design: the UIA bridge reads this back with
+@@ -375,6 +378,7 @@ QVariant Widget::attributeValue(QAccessible::Attribute key) const {
+ 			return int(*orientation);
+ 		}
+ 	}
++#endif // Qt >= 6.11
+ 	return QVariant();
+ }
+ 

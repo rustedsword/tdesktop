@@ -1,0 +1,77 @@
+Source: telegram-desktop
+Section: net
+Priority: optional
+Maintainer: Stanislav Aleksandrov <lightofmysoul@gmail.com>
+Build-Depends:
+ cmake,
+ debhelper-compat (= 13),
+ gir1.2-glib-2.0-dev,
+ gobject-introspection,
+ libada-url-dev,
+ libasound2-dev,
+ libavcodec-dev (>= 7:6.1),
+ libavfilter-dev (>= 7:6.1),
+ libavformat-dev (>= 7:6.1),
+ libavutil-dev (>= 7:6.1),
+ libboost-regex-dev,
+ libcbor-dev,
+ libcmark-gfm-dev,
+ libcmark-gfm-extensions-dev,
+ libexpected-dev,
+ libfido2-dev,
+ libglib2.0-dev (>= 2.56),
+ libglibmm-2.68-dev (>= 2.77),
+ libhunspell-dev,
+ libjpeg-dev,
+ libkf6coreaddons-dev,
+ liblz4-dev,
+ libminizip-dev,
+ libmsgsl-dev,
+ libopenal-dev,
+ libopenh264-dev,
+ libopus-dev (>= 1.1),
+ libpulse-dev,
+ libqrcodegencpp-dev,
+ librange-v3-dev,
+ librnnoise-dev,
+ libssl-dev,
+ libswresample-dev (>= 7:6.1),
+ libswscale-dev (>= 7:6.1),
+ libtde2e-dev,
+ libtgowt-dev,
+ libvpx-dev (>= 1.10.0),
+ libxcb-keysyms1-dev,
+ libxcb-record0-dev,
+ libxcb-screensaver0-dev,
+ libxcb1-dev,
+ libxxhash-dev,
+ pkgconf,
+ python3:any,
+ qt6-base-dev,
+ qt6-base-private-dev,
+ qt6-declarative-dev,
+ qt6-shader-baker,
+ qt6-svg-dev,
+ qt6-wayland-dev,
+ zlib1g-dev,
+Standards-Version: 4.7.3
+Rules-Requires-Root: no
+Homepage: https://desktop.telegram.org
+
+Package: telegram-desktop
+Architecture: amd64 arm64
+Depends:
+ qt6-image-formats-plugins,
+ ${misc:Depends},
+ ${shlibs:Depends},
+Recommends:
+ libwebkitgtk-6.0-4 | libwebkit2gtk-4.1-0,
+Description: fast and secure messaging application
+ Telegram is a messaging app with a focus on speed and security, it is
+ super-fast, simple and free. You can use Telegram on all your devices at the
+ same time — your messages sync seamlessly across any number of your phones,
+ tablets or computers.
+ .
+ This build tracks upstream releases directly and is provided for amd64 and
+ arm64; upstream ships no official arm64 binary and Ubuntu removed
+ telegram-desktop from the archive in 2023.

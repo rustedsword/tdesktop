@@ -1,0 +1,6 @@
+# rlottie vendors RapidJSON's headers, which are MIT-licensed. The JSON
+# "Good, not Evil" clause applies only to RapidJSON's bin/jsonchecker/
+# directory, as COPYING.RPD itself states, and that directory is not present
+# anywhere in this tree. The tag fires on the licence text describing it, not
+# on any shipped code under that licence.
+license-problem-json-evil [Telegram/ThirdParty/rlottie/licenses/COPYING.RPD]

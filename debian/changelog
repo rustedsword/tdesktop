@@ -1,0 +1,132 @@
+telegram-desktop (7.2.5+ppa1~resolute1) resolute; urgency=medium
+
+  * New upstream release 7.2.5, skipping the 7.2.6 pre-release.
+  * The whole 7.2.x series concerns upstream's v2 update system — a rotated
+    then revoked signing key, and finally a new autoupdate manifest source.
+    None of it affects this package, which is built with
+    DESKTOP_APP_DISABLE_AUTOUPDATE=ON and is updated through the PPA instead.
+  * Includes the 7.1.5 Linux crash fix ("Destroy main window on X11 on
+    explicit hide only", bea90214ec). The 7.2 branch forked on 28 August,
+    before 7.1.5 shipped on 2 September, so this was verified rather than
+    assumed: the commit is an ancestor of v7.2.5.
+  * No packaging changes. Only the lib_base submodule moved; cld3 still needs
+    no protoc, the QSB_EXECUTABLE and GI_GIR_PATH workarounds still apply, the
+    Qt 6.10 accessibility patch still applies, and the set of required
+    external dependencies is unchanged.
+  * The tg_owt, tde2e and rnnoise pins are unchanged.
+
+ -- Stanislav Aleksandrov <lightofmysoul@gmail.com>  Fri, 04 Sep 2026 13:36:20 +0000
+
+telegram-desktop (7.1.4+ppa1~resolute1) resolute; urgency=medium
+
+  * New upstream release 7.1.4: wider rich message bubbles for wide content,
+    fitting quality selection for video autoplay in channels, gift messages
+    disabled for recipients who charge for messages, and fixes for the call
+    panel, profile info and chat list menu, self-destructing media appearing
+    in previews and downloads, and re-encoding of edited videos.
+  * No packaging changes. The release moves the lib_tl and lib_ui submodules;
+    cld3 still needs no protoc, the QSB_EXECUTABLE and GI_GIR_PATH workarounds
+    still apply, the Qt 6.10 accessibility patch still applies, and the set of
+    required external dependencies is unchanged.
+  * The tg_owt, tde2e and rnnoise pins are unchanged.
+
+ -- Stanislav Aleksandrov <lightofmysoul@gmail.com>  Wed, 02 Sep 2026 10:49:35 +0000
+
+telegram-desktop (7.1.3+ppa1~resolute1) resolute; urgency=medium
+
+  * New upstream release 7.1.3: emoji status actions in the custom emoji
+    context menu, a slash menu with insertable blocks in the article editor,
+    banning and unbanning users in channel direct messages, a reaction preview
+    above the who-reacted menu, and highlighting of the search query when
+    jumping to a found message.
+  * No packaging changes. The release moves six submodule pointers (lib_base,
+    lib_lottie, lib_ui and others); cld3 still needs no protoc, the
+    QSB_EXECUTABLE and GI_GIR_PATH workarounds still apply, the Qt 6.10
+    accessibility patch still applies, and the set of required external
+    dependencies is unchanged.
+  * The tg_owt, tde2e and rnnoise pins are unchanged.
+
+ -- Stanislav Aleksandrov <lightofmysoul@gmail.com>  Thu, 27 Aug 2026 16:28:38 +0000
+
+telegram-desktop (7.1.2+ppa1~resolute1) resolute; urgency=medium
+
+  * New upstream release 7.1.2: reaction previews next to the cursor, better
+    restoring of windows and chats on relaunch, content no longer hidden from
+    screenshots while passcode-locked, and fixes for the system spellchecker,
+    folder sorting of unmuted unread chats, and quotes lingering above the
+    input field.
+  * No packaging changes. The release moves 12 submodule pointers including
+    cmake_helpers, but cld3 still needs no protoc, the QSB_EXECUTABLE and
+    GI_GIR_PATH workarounds still apply, and no new external dependency is
+    required.
+  * The tg_owt, tde2e and rnnoise pins are unchanged.
+
+ -- Stanislav Aleksandrov <lightofmysoul@gmail.com>  Tue, 25 Aug 2026 10:49:50 +0000
+
+telegram-desktop (7.1.1+ppa1~resolute1) resolute; urgency=medium
+
+  * New upstream release 7.1.1.
+  * Drop the protobuf CMake shim, along with the libprotobuf-dev and
+    protobuf-compiler build dependencies. Upstream reworked
+    cmake/external/cld3 to ship hand-written replacements for the three
+    generated .pb.h headers instead of running protoc, and removed
+    stage('protobuf') from Telegram/build/prepare/prepare.py, so the
+    find_package(protobuf REQUIRED CONFIG) that the shim existed to satisfy is
+    gone. Language detection still works: lib_spellcheck continues to link
+    external_cld3.
+  * No other packaging changes. The release moves 18 submodule pointers but
+    adds no new external dependency, and the QSB_EXECUTABLE and GI_GIR_PATH
+    workarounds plus the Qt 6.10 accessibility patch all still apply.
+  * The tg_owt, tde2e and rnnoise pins are unchanged.
+
+ -- Stanislav Aleksandrov <lightofmysoul@gmail.com>  Sun, 23 Aug 2026 19:45:29 +0000
+
+telegram-desktop (7.0.9+ppa1~resolute1) resolute; urgency=medium
+
+  * New upstream release 7.0.9: saving rich messages to HTML and importing
+    them back, a custom prompt tab in the article editor, an experimental
+    Vulkan rendering option on Linux, and crash fixes.
+  * No packaging changes needed. The release moves the codegen, lib_ui,
+    lib_webview, MicroTeX and cmake_helpers submodules, but cmake_helpers
+    changes nothing under external/cld3, external/glib or external/qt, so the
+    protobuf CMake shim, QSB_EXECUTABLE and GI_GIR_PATH workarounds all still
+    apply. The Vulkan option adds no new build dependency.
+  * The tg_owt, tde2e and rnnoise commits pinned in
+    Telegram/build/prepare/prepare.py are unchanged; the pins that moved
+    (patches, dav1d, libavif) are used only by upstream's static build.
+
+ -- Stanislav Aleksandrov <lightofmysoul@gmail.com>  Thu, 06 Aug 2026 19:05:48 +0000
+
+telegram-desktop (7.0.8+ppa1~resolute1) resolute; urgency=medium
+
+  * New upstream release 7.0.8. Upstream's only change is a Windows 7 launch
+    fix, so nothing user-visible changes on Linux; this tracks the release.
+  * No packaging changes were needed: 7.0.8 moves none of the library commits
+    pinned in Telegram/build/prepare/prepare.py and no submodule pointers, so
+    libtgowt, tde2e and rnnoise are unaffected.
+
+ -- Stanislav Aleksandrov <lightofmysoul@gmail.com>  Mon, 03 Aug 2026 19:48:40 +0000
+
+telegram-desktop (7.0.7+ppa2~resolute1) resolute; urgency=medium
+
+  * Anchor the debian/source/options tar-ignore patterns. They are passed to
+    tar --exclude, which matches any path component when the pattern has no
+    slash, so an unanchored "build" also removed Telegram/build/ from the
+    source tarball. That directory holds the version file read by
+    cmake/version.cmake, and every architecture failed configure on Launchpad
+    as a result.
+
+ -- Stanislav Aleksandrov <lightofmysoul@gmail.com>  Sat, 01 Aug 2026 21:40:00 +0000
+
+telegram-desktop (7.0.7+ppa1~resolute1) resolute; urgency=medium
+
+  * Initial packaging for ppa:lightofmysoul/tg.
+  * Built from upstream tag v7.0.7 with every submodule in place, so the
+    bundled fonts, libprisma grammars and patched rlottie upstream expects are
+    used rather than substituted.
+  * Links our libtgowt-dev, libtde2e-dev and librnnoise-dev, none of which
+    exist in Ubuntu.
+  * Uses the API credentials upstream publishes in snap/snapcraft.yaml.
+  * Autoupdate and crash reporting disabled.
+
+ -- Stanislav Aleksandrov <lightofmysoul@gmail.com>  Sat, 01 Aug 2026 19:45:00 +0000

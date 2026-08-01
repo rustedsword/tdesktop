@@ -1,0 +1,56 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: Telegram Desktop
+Upstream-Contact: https://github.com/telegramdesktop/tdesktop/issues
+Source: https://github.com/telegramdesktop/tdesktop
+Comment:
+ This is a native package built from the complete upstream tree, so it
+ includes the third-party components under Telegram/ThirdParty/ and
+ cmake/external/ that upstream vendors. Each carries its own notice in place;
+ this file states the licence of the application itself as given in LEGAL,
+ and is a summary rather than an exhaustive per-file audit, which is
+ appropriate for a PPA rebuild.
+
+Files: *
+Copyright: 2014-2026, The Telegram Desktop Authors
+License: GPL-3+-openssl
+
+Files: lib/xdg/org.telegram.desktop.metainfo.xml
+Copyright: 2014-2026, The Telegram Desktop Authors
+License: CC0-1.0
+Comment: The AppStream metadata declares its own licence in a project_license
+ field, which must match what is recorded here.
+
+Files: debian/*
+Copyright: 2026, Stanislav Aleksandrov <lightofmysoul@gmail.com>
+License: GPL-3+-openssl
+
+License: CC0-1.0
+ To the extent possible under law, the author(s) have dedicated all copyright
+ and related and neighbouring rights to this work to the public domain
+ worldwide. This work is distributed without any warranty.
+ .
+ On Debian systems the full text of the CC0 1.0 Universal licence can be found
+ in /usr/share/common-licenses/CC0-1.0.
+
+License: GPL-3+-openssl
+ Telegram Desktop is free software: you can redistribute it and/or modify it
+ under the terms of the GNU General Public License as published by the Free
+ Software Foundation, either version 3 of the License, or (at your option) any
+ later version.
+ .
+ It is distributed in the hope that it will be useful, but WITHOUT ANY
+ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ .
+ On Debian systems the full text of the GNU General Public License version 3
+ can be found in /usr/share/common-licenses/GPL-3.
+ .
+ In addition, as a special exception, the copyright holders give permission to
+ link the code of portions of this program with the OpenSSL library, and
+ distribute linked combinations including the two. You must obey the GNU
+ General Public License in all respects for all of the code used other than
+ OpenSSL. If you modify file(s) with this exception, you may extend this
+ exception to your version of the file(s), but you are not obligated to do so.
+ If you do not wish to do so, delete this exception statement from your
+ version. The full text of this exception is reproduced in the LEGAL file at
+ the root of the source tree.

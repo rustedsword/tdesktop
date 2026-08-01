@@ -1,0 +1,68 @@
+#!/usr/bin/make -f
+include /usr/share/dpkg/default.mk
+
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
+# Link-time optimisation of this tree needs well over 8 GB of RAM, more than a
+# Launchpad builder has. Debian disables it for Ubuntu builds for the same
+# reason.
+export DEB_BUILD_MAINT_OPTIONS += optimize=-lto
+
+# Print full template instantiation backtraces; this codebase produces
+# unreadable errors otherwise.
+export DEB_CXXFLAGS_MAINT_APPEND = -ftemplate-backtrace-limit=0
+
+# Full debug info pushes cc1plus past 3 GB on some translation units here,
+# which OOMs a parallel build, and produces a dbgsym package big enough to
+# matter against the PPA's 8 GiB quota. -g1 keeps file/line backtraces.
+export DEB_CFLAGS_MAINT_STRIP = -g
+export DEB_CXXFLAGS_MAINT_STRIP = -g
+export DEB_CFLAGS_MAINT_PREPEND = -g1
+export DEB_CXXFLAGS_MAINT_PREPEND = -g1
+
+# glib 2.88 splits the GIR files: the arch-independent ones stay in
+# /usr/share/gir-1.0, but GLib-2.0.gir is multiarch. cppgir only searches the
+# former, via XDG_DATA_DIRS, so point it at the other one too or it fails with
+# "could not find GIR for GLib-2.0".
+export GI_GIR_PATH = /usr/lib/$(DEB_HOST_MULTIARCH)/gir-1.0
+
+# Ubuntu installs Qt's shader baker outside every path upstream's find_program
+# hints cover, and outside PATH, so locate it here and pass it in explicitly.
+QSB_EXECUTABLE := $(firstword $(wildcard \
+	/usr/lib/qt6/bin/qsb \
+	/usr/lib/qt6/libexec/qsb \
+	/usr/lib/$(DEB_HOST_MULTIARCH)/qt6/bin/qsb \
+	/usr/lib/$(DEB_HOST_MULTIARCH)/qt6/libexec/qsb))
+
+# Notes on what is deliberately *not* set here:
+#
+#   DESKTOP_APP_USE_PACKAGED is forced ON by upstream whenever there is no
+#   prebuilt libs directory, so system libraries are already preferred.
+#
+#   DESKTOP_APP_USE_PACKAGED_FONTS / _RLOTTIE stay off: this is a native
+#   package built from the full upstream tree, so the patched bundled copies
+#   upstream expects are present. Debian must turn these on only because its
+#   +ds repack strips them.
+#
+#   DESKTOP_APP_DISABLE_AUTOUPDATE and _CRASH_REPORTS already default to ON
+#   when DESKTOP_APP_SPECIAL_TARGET is empty, but are set explicitly so a
+#   future upstream change to that default cannot quietly re-enable either.
+%:
+	dh $@ --buildsystem=cmake
+
+# Applied here rather than committed to the tree because the affected file
+# lives in the lib_ui submodule, and because the patch is a compatibility shim
+# for Qt 6.10 that becomes unnecessary the moment the baseline moves to 6.11.
+# --forward makes a re-run a no-op, which exits 1; anything worse is a real
+# failure and must stop the build.
+override_dh_auto_configure:
+	patch -p1 --forward --batch --reject-file=- \
+		< debian/patches/qt610-accessible-orientation.patch \
+		|| test $$? -eq 1
+	dh_auto_configure -- \
+		-DQSB_EXECUTABLE=$(QSB_EXECUTABLE) \
+		-DTDESKTOP_API_ID=611335 \
+		-DTDESKTOP_API_HASH=d524b414d21f4d37f08684c1df41ac9c \
+		-DDESKTOP_APP_DISABLE_AUTOUPDATE=ON \
+		-DDESKTOP_APP_DISABLE_CRASH_REPORTS=ON \
+		-DQT_NO_PRIVATE_MODULE_WARNING=ON

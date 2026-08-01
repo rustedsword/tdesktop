@@ -1,0 +1,21 @@
+# These become tar --exclude patterns. A pattern without a slash matches ANY
+# path component, and dpkg-source names members "<package>-<version>/..." so a
+# leading ./ anchors nothing — only distinctive names are safe here.
+#
+# In particular "build" must never appear: this tree has Telegram/build (which
+# holds the version file cmake/version.cmake reads) and
+# Telegram/ThirdParty/lz4/build. Excluding it produced a source package that
+# failed configure on every architecture.
+#
+# Top-level scratch directories are already stripped by inside-container.sh
+# when it copies the tree, where ./-anchored excludes do work.
+tar-ignore = .git
+tar-ignore = .cache
+tar-ignore = build-packages
+tar-ignore = obj-*
+tar-ignore = *.swp
+# Prebuilt Windows d3dcompiler_47.dll for ANGLE's D3D shader compilation, 8.7 MB.
+# cmake/CMakeLists.txt only descends into it under "WIN32 AND QT_VERSION LESS 6",
+# so it is unreachable here and never reached the binary package either.
+# Unique name, so an unanchored pattern is safe.
+tar-ignore = win_directx_helper
