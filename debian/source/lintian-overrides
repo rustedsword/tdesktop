@@ -1,0 +1,2 @@
+# Cargo's pristine manifests, listed in each crate's .cargo-checksum.json.
+telegram-desktop source: source-contains-patch-failure-file [vendor/*/Cargo.toml.orig]
